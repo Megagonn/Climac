@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather/model/weather.dart';
 import 'package:weather/service/api.dart';
+import 'package:weather/ui/city.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -94,73 +95,86 @@ class _HomeState extends State<Home> {
                         // var data = Weather.fromJson(snapshot.data);
                         return SingleChildScrollView(
                           child: Container(
-                            height: MediaQuery.of(context).size.height-100,
+                            height: MediaQuery.of(context).size.height - 100,
                             child: ListView.builder(
                               itemCount: allData.length,
                               itemBuilder: (context, val) {
                                 var data = Weather.fromJson(allData[val]);
-                                return Container(
-                                  margin:const EdgeInsets.symmetric(vertical: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: const Color(0xFF6151C3),
-                                  // borderRadius: BorderRadius.circular(50),
-                                  ),
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => City(),
+                                          settings:
+                                              RouteSettings(arguments: data)),
+                                    );
+                                  },
                                   child: Container(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              data.country,
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                top: 10,
-                                                bottom: 30,
-                                              ),
-                                              child: Text(
-                                                data.locationName,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: const Color(0xFF6151C3),
+                                      // borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data.country,
                                                 style: const TextStyle(
-                                                    fontSize: 35,
-                                                    fontWeight: FontWeight.w900,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
                                                     color: Colors.white),
                                               ),
-                                            ),
-                                            Text(
-                                              data.main,
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Image(
-                                              image: NetworkImage(
-                                                  "http://openweathermap.org/img/wn/${data.image}@2x.png"),
-                                            ),
-                                            Text(
-                                              "${data.temp.toString()}°C",
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        )
-                                      ],
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                  top: 10,
+                                                  bottom: 30,
+                                                ),
+                                                child: Text(
+                                                  data.locationName,
+                                                  style: const TextStyle(
+                                                      fontSize: 35,
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              Text(
+                                                data.main,
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Image(
+                                                image: NetworkImage(
+                                                    "http://openweathermap.org/img/wn/${data.image}@2x.png"),
+                                              ),
+                                              Text(
+                                                "${data.temp.toString()}°C",
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
