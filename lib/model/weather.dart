@@ -1,8 +1,9 @@
 class Weather {
-  final String locationName, image, main, description;
+  final String locationName, image, main, description, country;
   final double wind, pressure, temp, humidity;
 
   Weather({
+    required this.country,
     required this.locationName,
     required this.image,
     required this.main,
@@ -13,7 +14,17 @@ class Weather {
     required this.humidity,
   });
 
-  factory Weather.fromJson (Map map){
-    return Weather(locationName: map['name'], image: map['weather'][0]['icon'], main: map['weather'][0]['main'], description: map['weather'][0]['description'], wind: map['wind']['speed'], pressure: map['main']['pressure'], temp: map['main']['temp'], humidity: map['main']['humidity']);
+  factory Weather.fromJson(Map<String, dynamic> map) {
+    // var url = Uri.parse("http://openweathermap.org/img/wn/${icon}@2x.png");
+    return Weather(
+        locationName: map['name'],
+        image: "${map['weather'][0]['icon']}",
+        main: map['weather'][0]['main'],
+        description: map['weather'][0]['description'],
+        wind: map['wind']['speed'],
+        pressure: map['main']['pressure'],
+        temp: map['main']['temp'],
+        humidity: map['main']['humidity'],
+        country: map['sys']['country']);
   }
 }

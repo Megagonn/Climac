@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather/ui/home.dart';
 import 'package:weather/ui/ui.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const Onboarding(),
+      home: const Home(),
     );
   }
 }

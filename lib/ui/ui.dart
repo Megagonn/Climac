@@ -32,60 +32,64 @@ class _OnboardingState extends State<Onboarding> {
                 height: 10,
               ),
               // ignore: prefer_const_constructors
-              Card(
-                color: const Color(0xFF6151C3),
-                child: Container(
-              padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      // ignore: prefer_const_constructors
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 10.0),
-                        child: const Text(
-                          "Explore global map of wind, weather, and ocean conditions",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 50.0),
-                        child: const Text(
-                          "Planing your trip becomes more easier with ideate weather app. You can instantly see the whole world weather within few seconds.",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 20.0),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Text("Get started"),
-                          clipBehavior: Clip.hardEdge,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "Already have an account?",
+              ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                clipBehavior: Clip.antiAlias,
+                child: Card(
+                  color: const Color(0xFF6151C3),
+                  child: Container(
+                padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      // ignore: prefer_const_literals_to_create_immutables
+                      children: [
+                        // ignore: prefer_const_constructors
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10.0),
+                          child: const Text(
+                            "Explore global map of wind, weather, and ocean conditions",
                             style: TextStyle(
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.w900,
                               color: Colors.white,
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          TextButton(onPressed: (){}, child:const Text("Log in"),),
-                        ],
-                      ),
-                    ],
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 50.0),
+                          child: const Text(
+                            "Planing your trip becomes more easier with ideate weather app. You can instantly see the whole world weather within few seconds.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 20.0),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Text("Get started"),
+                            clipBehavior: Clip.hardEdge,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Already have an account?",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            TextButton(onPressed: (){}, child:const Text("Log in"),),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )
