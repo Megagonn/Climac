@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather/model/weather.dart';
 import 'package:weather/service/api.dart';
 import 'package:weather/ui/city.dart';
+import 'package:weather/ui/compare.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -37,7 +38,6 @@ class _HomeState extends State<Home> {
   TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -55,6 +55,14 @@ class _HomeState extends State<Home> {
                       color: Colors.black,
                     ),
                   ),
+                  CircleAvatar(
+                      backgroundColor: const Color(0xFF6151C3),
+                      child: IconButton(
+                        onPressed: () {
+                          _alert();
+                        },
+                        icon: const Icon(Icons.compare_arrows_sharp),
+                      )),
                   SizedBox(
                     width: 150,
                     child: TextField(
@@ -70,7 +78,6 @@ class _HomeState extends State<Home> {
                             settings: RouteSettings(arguments: refinedData),
                           ),
                         );
-                        
                       },
                     ),
                   ),
@@ -188,5 +195,78 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  _alert() {
+    return showDialog(
+        barrierColor: const Color(0xFF6151C3).withOpacity(0.4),
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          TextEditingController textEditingController = TextEditingController();
+          TextEditingController _textEditingController =
+              TextEditingController();
+          return AlertDialog(
+            content: Column(
+              children: [
+                TextField(
+                  controller: textEditingController,
+                ),
+                TextField(
+                  controller: _textEditingController,
+                ),
+              ],
+            ),
+            actions: [
+              Container(
+                // ignore: prefer_const_constructors
+                decoration: BoxDecoration(
+                  color: Colors.greenAccent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextButton(
+                  onPressed: () async {
+                    // var locus1 = textEditingController.text;
+                    // var locus2 = _textEditingController.text;
+                    var locus1 = await Api().getData(textEditingController.text);
+                    var locus2 = await Api().getData(_textEditingController.text);
+                    var city1 = Weather.fromJson(locus1);
+                    var city2 = Weather.fromJson(locus2);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Compared(),
+                            settings:
+                                RouteSettings(arguments: [city1, city2])));
+                  },
+                  child: const Text(
+                    "Compare",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.greenAccent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    // ignore: prefer_const_constructors
+                    child: Text(
+                      "Cancel",
+                      // ignore: prefer_const_constructors
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )),
+              )
+            ],
+          );
+        });
   }
 }
