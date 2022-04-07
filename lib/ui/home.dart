@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:weather/model/weather.dart';
+import 'package:weather/provider/prov.dart';
 import 'package:weather/service/api.dart';
 import 'package:weather/ui/city.dart';
+import 'package:weather/ui/searchresult.dart';
+import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,13 +21,7 @@ class _HomeState extends State<Home> {
   var result2;
   var result3;
   var result4;
-  // var result11;
-  // var result21;
-  // var result31;
-  // var result41;
-  // List myList = [];
   getWeather() async {
-    // var result1;
     var result1 = await Api().getData('london');
     result2 = await Api().getData('ede');
     result3 = await Api().getData('ogbomoso');
@@ -30,14 +29,6 @@ class _HomeState extends State<Home> {
     print(result1);
 
     List myList = [result1, result2, result3, result4];
-    // setState(() {
-    //   result11 = result1;
-    //   result21 = result2;
-    //   result31 = result3;
-    //   result41 = result4;
-    // });
-    // print('---$result1');
-    // return result1;
     return myList;
   }
 
@@ -48,10 +39,10 @@ class _HomeState extends State<Home> {
     getWeather();
   }
 
+  TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // List list = [result11, result21, result31, result41];
-    // print(myList);
+    var a = Provider.of<Search>(context, listen: true);
 
     return SafeArea(
       child: Scaffold(
@@ -66,15 +57,35 @@ class _HomeState extends State<Home> {
                     "Hello $name,\nDiscover the weather",
                     style: const TextStyle(
                       fontWeight: FontWeight.w900,
+                      fontSize: 14,
                       color: Colors.black,
                     ),
                   ),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: const Color(0xffe5e5e5),
-                    child: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.search)),
-                  )
+                  SizedBox(
+                    width: 150,
+                    child: TextField(
+                      controller: textEditingController,
+                      onEditingComplete: () {
+                        // print('editing: ${textEditingController.text}');
+                        a.locusChanger(textEditingController.text);
+                        print('oncomplete ${a.geolocus.toString()}');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => ChangeNotifierProvider(
+                                  create: ((context) => Search()),
+                                  builder: (context, val) {
+                                    return const SearchCity();
+                                  },
+                                  // child: const SearchCity()
+                                )),
+                            // settings: RouteSettings(
+                            //     arguments: textEditingController.text),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(
@@ -89,7 +100,7 @@ class _HomeState extends State<Home> {
                       // print('this is snapshot ${snapshot.data}');
                       // print("+++++${data.locationName}");
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return LinearProgressIndicator();
+                        return const LinearProgressIndicator();
                       } else {
                         var allData = snapshot.data;
                         // var data = Weather.fromJson(snapshot.data);

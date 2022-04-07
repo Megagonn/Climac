@@ -196,7 +196,8 @@ class _CityState extends State<City> {
                                     radius: 25,
                                     backgroundColor: const Color(0xFF6151C3),
                                     child: Text(
-                                      '${data.pressure}\nmmHg',
+                                      
+                                      '${data.pressure}\nmmHg',textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w200),
