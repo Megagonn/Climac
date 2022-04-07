@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-// import 'package:sync_flutters_charts/charts.dart';
 import 'package:weather/model/weather.dart';
 
 class City extends StatefulWidget {
@@ -18,7 +17,10 @@ class _CityState extends State<City> {
     // var data = Weather.fromJson(routeData);
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text(data.locationName.toString().toUpperCase()),
+          backgroundColor: const Color(0xFF6151C3),
+        ),
         body: Container(
           child: Column(
             children: [
@@ -29,7 +31,7 @@ class _CityState extends State<City> {
                       // height: 200,
                       padding: const EdgeInsets.all(20),
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 20),
+                          horizontal: 10, vertical: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: const Color(0xFF6151C3),
@@ -91,7 +93,8 @@ class _CityState extends State<City> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text("Weather now", style: TextStyle(
-                        fontSize: 25
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
                       ),),
                       Expanded(
                         child: Row(
@@ -106,7 +109,7 @@ class _CityState extends State<City> {
                                 // borderRadius: BorderRadius.circular(50),
                               ),
                               child: CircularPercentIndicator(
-                                radius: 75.0,
+                                radius: 55.0,
                                 lineWidth: 5.0,
                                 percent: data.wind / 20,
                                 header: Container(
@@ -143,7 +146,7 @@ class _CityState extends State<City> {
                                       '${data.wind}\nmph',
                                       style: const TextStyle(
                                           fontSize: 12,
-                                          fontWeight: FontWeight.w200),
+                                          fontWeight: FontWeight.w500),
                                     )
                                     // size: 50.0,
                                     // color: Colors.blue,
@@ -160,7 +163,7 @@ class _CityState extends State<City> {
                                 // borderRadius: BorderRadius.circular(50),
                               ),
                               child: CircularPercentIndicator(
-                                radius: 75.0,
+                                radius: 55.0,
                                 lineWidth: 5.0,
                                 percent: data.pressure / 1500,
                                 header: Container(
@@ -200,7 +203,7 @@ class _CityState extends State<City> {
                                       '${data.pressure}\nmmHg',textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 12,
-                                          fontWeight: FontWeight.w200),
+                                          fontWeight: FontWeight.w500),
                                     )
                                     // size: 50.0,
                                     // color: Colors.blue,

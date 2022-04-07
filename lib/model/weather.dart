@@ -15,7 +15,6 @@ class Weather {
   });
 
   factory Weather.fromJson(Map<String, dynamic> map) {
-    // var url = Uri.parse("http://openweathermap.org/img/wn/${icon}@2x.png");
     return Weather(
         locationName: map['name'],
         image: "${map['weather'][0]['icon']}",

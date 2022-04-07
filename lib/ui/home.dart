@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather/model/weather.dart';
-import 'package:weather/provider/prov.dart';
 import 'package:weather/service/api.dart';
 import 'package:weather/ui/city.dart';
-import 'package:weather/ui/searchresult.dart';
-import 'package:provider/provider.dart';
-
-import '../main.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -42,7 +37,6 @@ class _HomeState extends State<Home> {
   TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var a = Provider.of<Search>(context, listen: true);
 
     return SafeArea(
       child: Scaffold(
@@ -65,24 +59,18 @@ class _HomeState extends State<Home> {
                     width: 150,
                     child: TextField(
                       controller: textEditingController,
-                      onEditingComplete: () {
-                        // print('editing: ${textEditingController.text}');
-                        a.locusChanger(textEditingController.text);
-                        print('oncomplete ${a.geolocus.toString()}');
+                      onEditingComplete: () async {
+                        var rawData =
+                            await Api().getData(textEditingController.text);
+                        var refinedData = Weather.fromJson(rawData);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: ((context) => ChangeNotifierProvider(
-                                  create: ((context) => Search()),
-                                  builder: (context, val) {
-                                    return const SearchCity();
-                                  },
-                                  // child: const SearchCity()
-                                )),
-                            // settings: RouteSettings(
-                            //     arguments: textEditingController.text),
+                            builder: (context) => const City(),
+                            settings: RouteSettings(arguments: refinedData),
                           ),
                         );
+                        
                       },
                     ),
                   ),
@@ -92,18 +80,14 @@ class _HomeState extends State<Home> {
                 height: 10,
               ),
               Container(
-                // height: 300,
                 child: SingleChildScrollView(
                   child: FutureBuilder(
                     future: getWeather(),
                     builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                      // print('this is snapshot ${snapshot.data}');
-                      // print("+++++${data.locationName}");
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const LinearProgressIndicator();
                       } else {
                         var allData = snapshot.data;
-                        // var data = Weather.fromJson(snapshot.data);
                         return SingleChildScrollView(
                           child: Container(
                             height: MediaQuery.of(context).size.height - 100,
@@ -116,9 +100,10 @@ class _HomeState extends State<Home> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => City(),
-                                          settings:
-                                              RouteSettings(arguments: data)),
+                                        builder: (context) => const City(),
+                                        settings:
+                                            RouteSettings(arguments: data),
+                                      ),
                                     );
                                   },
                                   child: Container(
