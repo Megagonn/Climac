@@ -31,9 +31,8 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
         body: Container(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(70),
           child: Center(
             child: Container(
               // height: 470,

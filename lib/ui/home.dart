@@ -77,13 +77,13 @@ class _HomeState extends State<Home> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Column(
             children: [
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(width: 1, color: primary)
+                  // border: Border.all(width: 1, color: primary)
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,24 +91,25 @@ class _HomeState extends State<Home> {
                     FutureBuilder(
                       future: getUserName(),
                       builder: (context, AsyncSnapshot<dynamic> snaphot) {
-                        if (snaphot.connectionState == ConnectionState.waiting) {}
+                        if (snaphot.connectionState ==
+                            ConnectionState.waiting) {}
                         var name = snaphot.data;
                         return Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            color: primary,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(30),
-                              bottomLeft: Radius.circular(30),
-                            )
-                          ),
+                          padding: const EdgeInsets.all(5),
+                          decoration: const BoxDecoration(
+                              // color: primary,
+                              borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          )),
                           child: Text(
                             "Hello $name,\nDiscover the weather",
                             style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize: 14,
-                              color: white,
-                            ),
+                                fontWeight: FontWeight.w900,
+                                fontSize: 15,
+                                color: primary,
+                                wordSpacing: 3,
+                                fontFamily: "fonts/Nunito_regular.ttff"),
                           ),
                         );
                       },

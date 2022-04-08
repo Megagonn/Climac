@@ -28,9 +28,8 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
         body: Container(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(70),
           child: Center(
             child: Container(
               height: 330,
@@ -47,12 +46,12 @@ class _LoginState extends State<Login> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     "Login",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: primary,),
                   ),
-                  const Divider(
-                    color: Color(0xFF6151C3),
+                  Divider(
+                    color: grey,
                     thickness: 2,
                   ),
                   Form(
@@ -141,10 +140,6 @@ class _LoginState extends State<Login> {
                           onPressed: () async {
                             signin();
                             if (signin()) {
-                              // var data = {
-                              //   "username": textEditingController.text,
-                              //   "password": _textEditingController.text,
-                              // };
                               SharedPreferences pref =
                                   await SharedPreferences.getInstance();
                               var result = jsonDecode(pref.getString(
@@ -160,7 +155,10 @@ class _LoginState extends State<Login> {
                               }
                             }
                           },
-                          child: const Text("Login")),
+                          child: Text("Login",style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: white,
+                        ),)),
                     ),
                   ),
                   Row(

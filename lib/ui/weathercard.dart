@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather/color.dart';
 
 import 'city.dart';
 
@@ -18,6 +19,14 @@ weatherCard(BuildContext context, data) {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         color: const Color(0xFF6151C3),
+        boxShadow: [
+          BoxShadow(
+            color: grey.withOpacity(.7),
+            blurRadius: 1,
+            spreadRadius: 3,
+            blurStyle: BlurStyle.normal,
+          )
+        ]
         // borderRadius: BorderRadius.circular(50),
       ),
       child: Container(
