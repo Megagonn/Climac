@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather/color.dart';
 import 'package:weather/model/weather.dart';
 import 'package:weather/service/api.dart';
 import 'package:weather/ui/city.dart';
 import 'package:weather/ui/compare.dart';
+import 'package:weather/ui/weathercard.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,7 +17,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var name = 'Yusuff';
+  getUserName() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var data = (pref.getString("signup")!);
+    var name = jsonDecode(data)['username'];
+    // print(data);
+    // print(name);
+    return name;
+  }
+
+  Future<dynamic> getCurrentLocationWeather() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var data = jsonDecode(pref.getString("signup")!);
+    var weatherRaw = await Api().getData(data['location']);
+    return weatherRaw;
+  }
 
   getWeather() async {
     var result1 = await Api().getData('abuja');
@@ -45,12 +64,16 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getUserName();
+    getCurrentLocationWeather();
     getWeather();
   }
 
   TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    // var name = getUserName();
+    // var currentLocation = getCurrentLocation();
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -60,13 +83,20 @@ class _HomeState extends State<Home> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Hello $name,\nDiscover the weather",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
+                  FutureBuilder(
+                    future: getUserName(),
+                    builder: (context, AsyncSnapshot<dynamic> snaphot) {
+                      if (snaphot.connectionState == ConnectionState.waiting) {}
+                      var name = snaphot.data;
+                      return Text(
+                        "Hello $name,\nDiscover the weather",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                      );
+                    },
                   ),
                   CircleAvatar(
                       backgroundColor: const Color(0xFF6151C3),
@@ -97,6 +127,28 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              FutureBuilder(
+                future: getCurrentLocationWeather(),
+                builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Text('');
+                  } else {
+                    var data = snapshot.data;
+                    var weatherMap = Weather.fromJson(data);
+                    return weatherCard(context, weatherMap);
+                  }
+                },
+              ),
+              Center(
+                child: Container(
+                  width: 150,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: primary,
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -110,90 +162,12 @@ class _HomeState extends State<Home> {
                       var allData = snapshot.data;
                       return SingleChildScrollView(
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height - 100,
+                          height: MediaQuery.of(context).size.height - 282,
                           child: ListView.builder(
                             itemCount: allData.length,
                             itemBuilder: (context, val) {
                               var data = Weather.fromJson(allData[val]);
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const City(),
-                                      settings: RouteSettings(arguments: data),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: const Color(0xFF6151C3),
-                                    // borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              data.country,
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white),
-                                            ),
-                                            Container(
-                                              width: 250,
-                                              margin: const EdgeInsets.only(
-                                                top: 10,
-                                                bottom: 30,
-                                              ),
-                                              child: Text(
-                                                data.locationName,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 35,
-                                                    fontWeight: FontWeight.w900,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                            Text(
-                                              data.main,
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            Image(
-                                              image: NetworkImage(
-                                                  "http://openweathermap.org/img/wn/${data.image}@2x.png"),
-                                            ),
-                                            Text(
-                                              "${data.temp.toString()}°C",
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
+                              return weatherCard(context, data);
                             },
                           ),
                         ),
