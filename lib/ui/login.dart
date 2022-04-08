@@ -48,7 +48,11 @@ class _LoginState extends State<Login> {
                 children: [
                   Text(
                     "Login",
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700, color: primary,),
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                      color: primary,
+                    ),
                   ),
                   Divider(
                     color: grey,
@@ -145,20 +149,35 @@ class _LoginState extends State<Login> {
                               var result = jsonDecode(pref.getString(
                                 "signup",
                               )!);
-                              if (result['username'] == textEditingController.text &&
+                              if (result['username'] ==
+                                      textEditingController.text &&
                                   result['password'] ==
                                       _textEditingController.text) {
+                                var data = {
+                                  "username": textEditingController.text,
+                                  "password": _textEditingController.text,
+                                  "location": result['location'],
+                                  "email": result['email'],
+                                  "loggedin": true,
+                                };
+                                await pref.setString(
+                                    "signup", jsonEncode(data));
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => const Home()));
+                              } else {
+                                return _bottomS();
                               }
                             }
                           },
-                          child: Text("Login",style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          color: white,
-                        ),)),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              color: white,
+                            ),
+                          )),
                     ),
                   ),
                   Row(
@@ -191,5 +210,19 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  _bottomS() {
+    return showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.all(10),
+            child: const Text("Invalid Credentials", style: TextStyle(color: Colors.redAccent),));
+        });
   }
 }

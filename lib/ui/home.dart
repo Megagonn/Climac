@@ -7,6 +7,7 @@ import 'package:weather/model/weather.dart';
 import 'package:weather/service/api.dart';
 import 'package:weather/ui/city.dart';
 import 'package:weather/ui/compare.dart';
+import 'package:weather/ui/login.dart';
 import 'package:weather/ui/weathercard.dart';
 
 class Home extends StatefulWidget {
@@ -115,13 +116,14 @@ class _HomeState extends State<Home> {
                       },
                     ),
                     CircleAvatar(
-                        backgroundColor: const Color(0xFF6151C3),
-                        child: IconButton(
-                          onPressed: () {
-                            _alert();
-                          },
-                          icon: const Icon(Icons.compare_arrows_sharp),
-                        )),
+                      backgroundColor: const Color(0xFF6151C3),
+                      child: IconButton(
+                        onPressed: () {
+                          _alert();
+                        },
+                        icon: const Icon(Icons.compare_arrows_sharp),
+                      ),
+                    ),
                     SizedBox(
                       width: 150,
                       child: TextField(
@@ -139,6 +141,15 @@ class _HomeState extends State<Home> {
                           );
                           textEditingController.clear();
                         },
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: Color.fromARGB(255, 238, 72, 72),
+                      child: IconButton(
+                        onPressed: () {
+                          alert();
+                        },
+                        icon: const Icon(Icons.logout_outlined),
                       ),
                     ),
                   ],
@@ -282,6 +293,75 @@ class _HomeState extends State<Home> {
                         color: Colors.white,
                       ),
                     )),
+              )
+            ],
+          );
+        });
+  }
+
+  alert() {
+    return showDialog(
+        barrierColor: const Color(0xFF6151C3).withOpacity(0.4),
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Log Out?'),
+            content: const Text("You are about log out of Climac"),
+            actions: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                // ignore: prefer_const_constructors
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6151C3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextButton(
+                  onPressed: () async {
+                    SharedPreferences pref =
+                        await SharedPreferences.getInstance();
+                    var result = jsonDecode(pref.getString(
+                      "signup",
+                    )!);
+
+                    var data = {
+                      "username": result['username'],
+                      "password": result['password'],
+                      "location": result['location'],
+                      "email": result['email'],
+                      "loggedin": false,
+                    };
+                    await pref.setString("signup", jsonEncode(data));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Login()));
+                  },
+                  // ignore: prefer_const_constructors
+                  child: Text(
+                    "Log Out",
+                    // ignore: prefer_const_constructors
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               )
             ],
           );

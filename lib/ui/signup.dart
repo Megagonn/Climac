@@ -59,7 +59,6 @@ class _SignUpState extends State<SignUp> {
                   ),
                   Form(
                     key: _key,
-                    autovalidateMode: AutovalidateMode.always,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -197,6 +196,7 @@ class _SignUpState extends State<SignUp> {
                                     "password": _textEditingController.text,
                                     "location": locusController.text,
                                     "email": emailController.text,
+                                    "loggedin": true,
                                   };
                                   SharedPreferences pref =
                                       await SharedPreferences.getInstance();
