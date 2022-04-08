@@ -18,13 +18,18 @@ class _HomeState extends State<Home> {
   var result3;
   var result4;
   getWeather() async {
-    var result1 = await Api().getData('london');
+    var result1 = await Api().getData('abuja');
     result2 = await Api().getData('ede');
     result3 = await Api().getData('ogbomoso');
     result4 = await Api().getData('ohio');
-    print(result1);
+    var result5 = await Api().getData('mecca');
+    var result6 = await Api().getData('london');
+    var result7 = await Api().getData('medina');
+    var result8 = await Api().getData('moscow');
+    var result9 = await Api().getData('dublin');
+    var result10 = await Api().getData('seoul');
 
-    List myList = [result1, result2, result3, result4];
+    List myList = [result1, result2, result3, result4,result5, result6, result7, result8,result9, result10];
     return myList;
   }
 
@@ -139,12 +144,14 @@ class _HomeState extends State<Home> {
                                                     color: Colors.white),
                                               ),
                                               Container(
+                                                width: 250,
                                                 margin: const EdgeInsets.only(
                                                   top: 10,
                                                   bottom: 30,
                                                 ),
                                                 child: Text(
                                                   data.locationName,
+                                                  overflow: TextOverflow.ellipsis,
                                                   style: const TextStyle(
                                                       fontSize: 35,
                                                       fontWeight:
@@ -207,27 +214,36 @@ class _HomeState extends State<Home> {
           TextEditingController _textEditingController =
               TextEditingController();
           return AlertDialog(
-            content: Column(
-              children: [
-                TextField(
-                  controller: textEditingController,
-                ),
-                TextField(
-                  controller: _textEditingController,
-                ),
-              ],
+            title: const Text('Compare with:'),
+            content: SizedBox(
+              height: 150,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: textEditingController,
+                    decoration: const InputDecoration(
+                      labelText: "City name",
+                    ),
+                  ),
+                  TextField(
+                    controller: _textEditingController,
+                    decoration: const InputDecoration(
+                      labelText: "City name",
+                    ),
+                  ),
+                ],
+              ),
             ),
             actions: [
               Container(
+                padding: const EdgeInsets.all(5),
                 // ignore: prefer_const_constructors
                 decoration: BoxDecoration(
-                  color: Colors.greenAccent,
+                  color: const Color(0xFF6151C3),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextButton(
                   onPressed: () async {
-                    // var locus1 = textEditingController.text;
-                    // var locus2 = _textEditingController.text;
                     var locus1 = await Api().getData(textEditingController.text);
                     var locus2 = await Api().getData(_textEditingController.text);
                     var city1 = Weather.fromJson(locus1);
@@ -248,8 +264,9 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Container(
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                  color: Colors.greenAccent,
+                  color: Colors.redAccent,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextButton(
