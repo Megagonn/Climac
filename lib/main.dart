@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/ui/home.dart';
+import 'package:weather/ui/login.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -13,10 +14,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Climac',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Home(),
+      // theme: Theme.of(context),
+      // ThemeData(
+      //   primarySwatch: Colors.blueGrey,
+      // ),
+      home: Login(),
+      // const Home(),
     );
   }
 }
