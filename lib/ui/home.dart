@@ -80,52 +80,68 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FutureBuilder(
-                    future: getUserName(),
-                    builder: (context, AsyncSnapshot<dynamic> snaphot) {
-                      if (snaphot.connectionState == ConnectionState.waiting) {}
-                      var name = snaphot.data;
-                      return Text(
-                        "Hello $name,\nDiscover the weather",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      );
-                    },
-                  ),
-                  CircleAvatar(
-                      backgroundColor: const Color(0xFF6151C3),
-                      child: IconButton(
-                        onPressed: () {
-                          _alert();
-                        },
-                        icon: const Icon(Icons.compare_arrows_sharp),
-                      )),
-                  SizedBox(
-                    width: 150,
-                    child: TextField(
-                      controller: textEditingController,
-                      onEditingComplete: () async {
-                        var rawData =
-                            await Api().getData(textEditingController.text);
-                        var refinedData = Weather.fromJson(rawData);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const City(),
-                            settings: RouteSettings(arguments: refinedData),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(width: 1, color: primary)
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FutureBuilder(
+                      future: getUserName(),
+                      builder: (context, AsyncSnapshot<dynamic> snaphot) {
+                        if (snaphot.connectionState == ConnectionState.waiting) {}
+                        var name = snaphot.data;
+                        return Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            color: primary,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              bottomLeft: Radius.circular(30),
+                            )
+                          ),
+                          child: Text(
+                            "Hello $name,\nDiscover the weather",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14,
+                              color: white,
+                            ),
                           ),
                         );
-                        textEditingController.clear();
                       },
                     ),
-                  ),
-                ],
+                    CircleAvatar(
+                        backgroundColor: const Color(0xFF6151C3),
+                        child: IconButton(
+                          onPressed: () {
+                            _alert();
+                          },
+                          icon: const Icon(Icons.compare_arrows_sharp),
+                        )),
+                    SizedBox(
+                      width: 150,
+                      child: TextField(
+                        controller: textEditingController,
+                        onEditingComplete: () async {
+                          var rawData =
+                              await Api().getData(textEditingController.text);
+                          var refinedData = Weather.fromJson(rawData);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const City(),
+                              settings: RouteSettings(arguments: refinedData),
+                            ),
+                          );
+                          textEditingController.clear();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
               FutureBuilder(
                 future: getCurrentLocationWeather(),
