@@ -14,14 +14,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   var name = 'Yusuff';
 
-  var result2;
-  var result3;
-  var result4;
   getWeather() async {
     var result1 = await Api().getData('abuja');
-    result2 = await Api().getData('ede');
-    result3 = await Api().getData('ogbomoso');
-    result4 = await Api().getData('ohio');
+    var result2 = await Api().getData('ede');
+    var result3 = await Api().getData('ogbomoso');
+    var result4 = await Api().getData('ohio');
     var result5 = await Api().getData('mecca');
     var result6 = await Api().getData('london');
     var result7 = await Api().getData('medina');
@@ -29,7 +26,18 @@ class _HomeState extends State<Home> {
     var result9 = await Api().getData('dublin');
     var result10 = await Api().getData('seoul');
 
-    List myList = [result1, result2, result3, result4,result5, result6, result7, result8,result9, result10];
+    List myList = [
+      result1,
+      result2,
+      result3,
+      result4,
+      result5,
+      result6,
+      result7,
+      result8,
+      result9,
+      result10
+    ];
     return myList;
   }
 
@@ -83,6 +91,7 @@ class _HomeState extends State<Home> {
                             settings: RouteSettings(arguments: refinedData),
                           ),
                         );
+                        textEditingController.clear();
                       },
                     ),
                   ),
@@ -91,110 +100,106 @@ class _HomeState extends State<Home> {
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                child: SingleChildScrollView(
-                  child: FutureBuilder(
-                    future: getWeather(),
-                    builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const LinearProgressIndicator();
-                      } else {
-                        var allData = snapshot.data;
-                        return SingleChildScrollView(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height - 100,
-                            child: ListView.builder(
-                              itemCount: allData.length,
-                              itemBuilder: (context, val) {
-                                var data = Weather.fromJson(allData[val]);
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const City(),
-                                        settings:
-                                            RouteSettings(arguments: data),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: const Color(0xFF6151C3),
-                                      // borderRadius: BorderRadius.circular(50),
+              SingleChildScrollView(
+                child: FutureBuilder(
+                  future: getWeather(),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const LinearProgressIndicator();
+                    } else {
+                      var allData = snapshot.data;
+                      return SingleChildScrollView(
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height - 100,
+                          child: ListView.builder(
+                            itemCount: allData.length,
+                            itemBuilder: (context, val) {
+                              var data = Weather.fromJson(allData[val]);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const City(),
+                                      settings: RouteSettings(arguments: data),
                                     ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                data.country,
+                                  );
+                                },
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: const Color(0xFF6151C3),
+                                    // borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data.country,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white),
+                                            ),
+                                            Container(
+                                              width: 250,
+                                              margin: const EdgeInsets.only(
+                                                top: 10,
+                                                bottom: 30,
+                                              ),
+                                              child: Text(
+                                                data.locationName,
+                                                overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 35,
+                                                    fontWeight: FontWeight.w900,
                                                     color: Colors.white),
                                               ),
-                                              Container(
-                                                width: 250,
-                                                margin: const EdgeInsets.only(
-                                                  top: 10,
-                                                  bottom: 30,
-                                                ),
-                                                child: Text(
-                                                  data.locationName,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                      fontSize: 35,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                              Text(
-                                                data.main,
-                                                style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              Image(
-                                                image: NetworkImage(
-                                                    "http://openweathermap.org/img/wn/${data.image}@2x.png"),
-                                              ),
-                                              Text(
-                                                "${data.temp.toString()}°C",
-                                                style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
+                                            ),
+                                            Text(
+                                              data.main,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Image(
+                                              image: NetworkImage(
+                                                  "http://openweathermap.org/img/wn/${data.image}@2x.png"),
+                                            ),
+                                            Text(
+                                              "${data.temp.toString()}°C",
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      }
-                    },
-                  ),
+                        ),
+                      );
+                    }
+                  },
                 ),
               )
             ],
@@ -244,16 +249,21 @@ class _HomeState extends State<Home> {
                 ),
                 child: TextButton(
                   onPressed: () async {
-                    var locus1 = await Api().getData(textEditingController.text);
-                    var locus2 = await Api().getData(_textEditingController.text);
+                    var locus1 =
+                        await Api().getData(textEditingController.text);
+                    var locus2 =
+                        await Api().getData(_textEditingController.text);
                     var city1 = Weather.fromJson(locus1);
                     var city2 = Weather.fromJson(locus2);
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Compared(),
-                            settings:
-                                RouteSettings(arguments: [city1, city2])));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Compared(),
+                        settings: RouteSettings(arguments: [city1, city2]),
+                      ),
+                    );
+                    textEditingController.clear();
+                    _textEditingController.clear();
                   },
                   child: const Text(
                     "Compare",
