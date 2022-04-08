@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather/ui/home.dart';
 import 'package:weather/ui/login.dart';
 import 'package:weather/ui/signup.dart';
+import 'package:weather/ui/ui.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -19,10 +20,10 @@ class MyApp extends StatelessWidget {
       // ThemeData(
       //   primarySwatch: Colors.blueGrey,
       // ),
-      home: 
+      home: Onboarding(),
       // SignUp(),
       // Login(),
-      const Home(),
+      // const Home(),
     );
   }
 }
