@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather/service/connectivity.dart';
 import 'package:weather/ui/home.dart';
 import 'package:weather/ui/login.dart';
 import 'package:weather/ui/signup.dart';
@@ -20,7 +21,9 @@ isFirstTime() async {
   return firstTimer;
 }
 
-void main() {
+var checkNetwork;
+void main() async {
+  checkNetwork = await Connectivity().checkConnection();
   isFirstTime();
   runApp(const MyApp());
 }
@@ -34,7 +37,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Climac',
-      home: firstTimer ? const Onboarding() : isLoggedIn ? const Home() : Login(),
+      home: checkNetwork == false ? Text('no network') : firstTimer
+          ? const Onboarding()
+          : isLoggedIn
+              ? const Home()
+              : Login(),
       // SignUp(),
       // Login(),
       // const Home(),

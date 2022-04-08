@@ -221,7 +221,16 @@ class _HomeState extends State<Home> {
           TextEditingController _textEditingController =
               TextEditingController();
           return AlertDialog(
-            title: const Text('Compare with:'),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Compare with:'),
+                Divider(
+                  color:grey,
+                  height:2,
+                )
+              ],
+            ),
             content: SizedBox(
               height: 150,
               child: Column(
@@ -306,8 +315,21 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Log Out?'),
-            content: const Text("You are about log out of Climac"),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Log Out?', style: TextStyle(
+                  fontFamily: "fonts/Nunito-Bold.ttff",
+                ),),
+                Divider(
+                  color: grey,
+                  height: 2,
+                )
+              ],
+            ),
+            content: const Text("You are about log out of Climac", style: TextStyle(
+              fontFamily: "fonts/Nunito-Regular.ttff",
+            ),),
             actions: [
               Container(
                 padding: const EdgeInsets.all(5),
