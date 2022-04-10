@@ -29,11 +29,11 @@ class _LoginState extends State<Login> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          padding: const EdgeInsets.all(70),
+          padding: const EdgeInsets.all(20),
           child: Center(
             child: Container(
-              height: 330,
-              padding: const EdgeInsets.all(25),
+              height: 370,
+              padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                   color: Colors.white,
@@ -146,28 +146,33 @@ class _LoginState extends State<Login> {
                             if (signin()) {
                               SharedPreferences pref =
                                   await SharedPreferences.getInstance();
-                              var result = jsonDecode(pref.getString(
+                                var decode = (pref.getString(
                                 "signup",
-                              )!);
-                              if (result['username'] ==
-                                      textEditingController.text &&
-                                  result['password'] ==
-                                      _textEditingController.text) {
-                                var data = {
-                                  "username": textEditingController.text,
-                                  "password": _textEditingController.text,
-                                  "location": result['location'],
-                                  "email": result['email'],
-                                  "loggedin": true,
-                                };
-                                await pref.setString(
-                                    "signup", jsonEncode(data));
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Home()));
+                              )) ?? 'null';
+                              var result = jsonDecode(decode);
+                              if (result==null || result['username'] != textEditingController.text) {
+                                return _bottomS2();
                               } else {
-                                return _bottomS();
+                                if (result['username'] ==
+                                        textEditingController.text &&
+                                    result['password'] ==
+                                        _textEditingController.text) {
+                                  var data = {
+                                    "username": textEditingController.text,
+                                    "password": _textEditingController.text,
+                                    "location": result['location'],
+                                    "email": result['email'],
+                                    "loggedin": true,
+                                  };
+                                  await pref.setString(
+                                      "signup", jsonEncode(data));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Home()));
+                                } else {
+                                  return _bottomS();
+                                }
                               }
                             }
                           },
@@ -220,9 +225,29 @@ class _LoginState extends State<Login> {
         context: context,
         builder: (context) {
           return Container(
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.all(10),
-            child: const Text("Invalid Credentials", style: TextStyle(color: Colors.redAccent),));
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.all(10),
+              child: const Text(
+                "Invalid Credentials",
+                style: TextStyle(color: Colors.redAccent),
+              ));
+        });
+  }
+
+  _bottomS2() {
+    return showModalBottomSheet(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+        context: context,
+        builder: (context) {
+          return Container(
+              padding: const EdgeInsets.all(5),
+              margin: const EdgeInsets.all(10),
+              child: const Text(
+                "Not a registered user",
+                style: TextStyle(color: Colors.redAccent),
+              ));
         });
   }
 }

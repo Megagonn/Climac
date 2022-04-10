@@ -1,6 +1,7 @@
 class Weather {
   final String locationName, image, main, description, country;
-  final double wind, pressure, temp, humidity;
+  final double wind, temp;
+  final int humidity, pressure;
 
   Weather({
     required this.country,

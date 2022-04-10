@@ -47,9 +47,10 @@ class _CityState extends State<City> {
                             child: Text(
                               data.locationName,
                               style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w200,
-                                  color: Colors.white),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                           Text(
@@ -66,7 +67,7 @@ class _CityState extends State<City> {
                               data.main,
                               style: const TextStyle(
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: FontWeight.w400,
                                   color: Colors.white),
                             ),
                           )
@@ -75,9 +76,7 @@ class _CityState extends State<City> {
                     )),
               ),
               // ignore: prefer_const_constructors
-              SizedBox(
-                height:40
-              ),
+              SizedBox(height: 40),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(20),
@@ -92,10 +91,13 @@ class _CityState extends State<City> {
                     // mainAxisAlignment: MainAxisAlignment.space,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Weather now", style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                      ),),
+                      const Text(
+                        "Weather now",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,8 +115,9 @@ class _CityState extends State<City> {
                                 lineWidth: 5.0,
                                 percent: data.wind / 20,
                                 header: Container(
-                                  padding: const EdgeInsets.only(right: 10), 
-                                  margin: const EdgeInsets.symmetric(vertical: 8),
+                                  padding: const EdgeInsets.only(right: 10),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: const Color(0xffe5e5e5),
@@ -130,12 +133,12 @@ class _CityState extends State<City> {
                                           radius: 15,
                                           backgroundColor:
                                               const Color(0xFF6151C3),
-                                          child: const Icon(Icons.air_sharp,),
+                                          child: const Icon(
+                                            Icons.air_sharp,
+                                          ),
                                         ),
                                         // ignore: prefer_const_constructors
-                                        SizedBox(
-                                          width:10
-                                        ),
+                                        SizedBox(width: 10),
                                         const Text("Wind"),
                                       ]),
                                 ),
@@ -168,7 +171,8 @@ class _CityState extends State<City> {
                                 percent: data.pressure / 1500,
                                 header: Container(
                                   padding: const EdgeInsets.only(right: 10),
-                                  margin: const EdgeInsets.symmetric(vertical: 8),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     color: const Color(0xffe5e5e5),
@@ -189,9 +193,7 @@ class _CityState extends State<City> {
                                           ),
                                         ),
                                         // ignore: prefer_const_constructors
-                                        SizedBox(
-                                          width:10
-                                        ),
+                                        SizedBox(width: 10),
                                         const Text("Pressure"),
                                       ]),
                                 ),
@@ -199,8 +201,8 @@ class _CityState extends State<City> {
                                     radius: 25,
                                     backgroundColor: const Color(0xFF6151C3),
                                     child: Text(
-                                      
-                                      '${data.pressure}\nmmHg',textAlign: TextAlign.center,
+                                      '${data.pressure}\nmmHg',
+                                      textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500),

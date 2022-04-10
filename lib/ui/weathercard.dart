@@ -34,39 +34,41 @@ weatherCard(BuildContext context, data) {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data.country,
-                  style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
-                ),
-                Container(
-                  width: 250,
-                  margin: const EdgeInsets.only(
-                    top: 10,
-                    bottom: 30,
-                  ),
-                  child: Text(
-                    data.locationName,
-                    overflow: TextOverflow.ellipsis,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.country,
                     style: const TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
                         color: Colors.white),
                   ),
-                ),
-                Text(
-                  data.main,
-                  style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white),
-                ),
-              ],
+                  Container(
+                    width: 250,
+                    margin: const EdgeInsets.only(
+                      top: 10,
+                      bottom: 30,
+                    ),
+                    child: Text(
+                      data.locationName,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white),
+                    ),
+                  ),
+                  Text(
+                    data.main,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
             ),
             Column(
               children: [

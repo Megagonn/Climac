@@ -21,8 +21,10 @@ class _OnboardingState extends State<Onboarding> {
           // ),
           padding: const EdgeInsets.all(20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
+                margin: const EdgeInsets.only(top: 20,),
                 height: MediaQuery.of(context).size.height / 2,
                 child: Stack(
                     // ignore: prefer_const_literals_to_create_immutables
@@ -56,8 +58,8 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                       ),
                       Positioned(
-                        top: 120,
-                        right: 200,
+                        top: 10,
+                        right: 150,
                         child: CircleAvatar(
                           backgroundColor: Colors.grey.withOpacity(.3),
                           child: const Image(
@@ -86,8 +88,8 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                       ),
                       Positioned(
-                        top: 40,
-                        left: 290,
+                        top: 20,
+                        left: 240,
                         child: CircleAvatar(
                           backgroundColor: Colors.grey.withOpacity(.3),
                           child: const Image(
@@ -105,9 +107,9 @@ class _OnboardingState extends State<Onboarding> {
                       ),
                     ]),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
               // ignore: prefer_const_constructors
               Container(
                 decoration: BoxDecoration(

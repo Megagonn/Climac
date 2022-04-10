@@ -5,14 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather/service/connectivity.dart';
 import 'package:weather/ui/home.dart';
 import 'package:weather/ui/login.dart';
-import 'package:weather/ui/signup.dart';
 import 'package:weather/ui/ui.dart';
+// import 'package:connectivity_handler/connectivity_handler.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'connectivity_plus/connectivity_plus';
 
 var firstTimer = true;
 var isLoggedIn = true;
 isFirstTime() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  var firstTime = pref.getString("signup") ?? '';
+  var firstTime = pref.getString("signup") ?? jsonEncode({''});
   var result = jsonDecode(firstTime);
   isLoggedIn = result['loggedin'];
   if (firstTime.isNotEmpty) {
@@ -21,11 +23,11 @@ isFirstTime() async {
   return firstTimer;
 }
 
-var checkNetwork;
+// var checkNetwork;
 void main() async {
-  checkNetwork = await Connectivity().checkConnection();
+  // checkNetwork = await (Connectivity().checkConnectivity());
   isFirstTime();
-  runApp(const MyApp());
+  runApp((const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,7 +39,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Climac',
-      home: checkNetwork == false ? Text('no network') : firstTimer
+      home: 
+      firstTimer
           ? const Onboarding()
           : isLoggedIn
               ? const Home()
