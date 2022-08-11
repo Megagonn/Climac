@@ -1,6 +1,6 @@
 class Weather {
   final String locationName, image, main, description, country;
-  final double wind, temp;
+  final dynamic wind, temp;
   final int humidity, pressure;
 
   Weather({

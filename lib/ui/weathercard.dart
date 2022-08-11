@@ -15,7 +15,7 @@ weatherCard(BuildContext context, data) {
       );
     },
     child: Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         color: const Color(0xFF6151C3),

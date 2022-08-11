@@ -61,6 +61,8 @@ class _HomeState extends State<Home> {
     return myList;
   }
 
+  FocusNode node = FocusNode();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -75,12 +77,12 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     // var name = getUserName();
     // var currentLocation = getCurrentLocation();
-    return SafeArea(
-      bottom: false,
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
             child: Column(
               children: [
                 Container(
@@ -117,7 +119,6 @@ class _HomeState extends State<Home> {
                           );
                         },
                       ),
-                      
                       CircleAvatar(
                         backgroundColor: const Color(0xFF6151C3),
                         child: IconButton(
@@ -128,14 +129,14 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       const SizedBox(
-                        width:5,
+                        width: 5,
                       ),
                       Flexible(
                         // width: 150.0,
                         child: TextField(
                           // autofocus: true,
                           // enabled: false,
-                          focusNode: FocusNode(canRequestFocus: false),
+                          focusNode: node,
                           controller: textEditingController,
                           onEditingComplete: () async {
                             var rawData =
@@ -150,11 +151,12 @@ class _HomeState extends State<Home> {
                             );
                             textEditingController.clear();
                             textEditingController.clearComposing();
+                            node.unfocus();
                           },
                         ),
                       ),
                       const SizedBox(
-                        width:5,
+                        width: 5,
                       ),
                       CircleAvatar(
                         backgroundColor: const Color.fromARGB(255, 238, 72, 72),
@@ -228,7 +230,7 @@ class _HomeState extends State<Home> {
   _alert() {
     return showDialog(
         barrierColor: const Color(0xFF6151C3).withOpacity(0.4),
-        barrierDismissible: false,
+        barrierDismissible: true,
         context: context,
         builder: (context) {
           TextEditingController textEditingController = TextEditingController();
@@ -240,8 +242,8 @@ class _HomeState extends State<Home> {
               children: [
                 const Text('Compare with:'),
                 Divider(
-                  color:grey,
-                  height:2.0,
+                  color: grey,
+                  height: 2.0,
                 )
               ],
             ),
@@ -289,6 +291,7 @@ class _HomeState extends State<Home> {
                     );
                     textEditingController.clear();
                     _textEditingController.clear();
+                    // Navigator.pop(context);
                   },
                   child: const Text(
                     "Compare",
@@ -332,18 +335,24 @@ class _HomeState extends State<Home> {
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Log Out?', style: TextStyle(
-                  fontFamily: "fonts/Nunito-Bold.ttff",
-                ),),
+                const Text(
+                  'Log Out?',
+                  style: TextStyle(
+                    fontFamily: "fonts/Nunito-Bold.ttff",
+                  ),
+                ),
                 Divider(
                   color: grey,
                   height: 2,
                 )
               ],
             ),
-            content: const Text("You are about log out of Climac", style: TextStyle(
-              fontFamily: "fonts/Nunito-Regular.ttff",
-            ),),
+            content: const Text(
+              "You are about log out of Climac",
+              style: TextStyle(
+                fontFamily: "fonts/Nunito-Regular.ttff",
+              ),
+            ),
             actions: [
               Container(
                 padding: const EdgeInsets.all(5.0),

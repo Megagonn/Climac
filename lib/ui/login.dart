@@ -97,8 +97,8 @@ class _LoginState extends State<Login> {
                             validator: (val) {
                               return val.toString().isEmpty
                                   ? "Please fill in your password"
-                                  : val.toString().length < 5
-                                      ? "Password must be atleast 5 characters long"
+                                  : val.toString().length < 4
+                                      ? "Password must be atleast 4 characters long"
                                       : null;
                             },
                             obscureText: obscural,
@@ -118,7 +118,7 @@ class _LoginState extends State<Login> {
                                         obscural = true;
                                         setState(() {});
                                       },
-                                      icon: const Icon(Icons.close)),
+                                      icon: const Icon(Icons.visibility_off_outlined)),
                               labelText: 'Password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(30),
